@@ -15,11 +15,11 @@ onMounted(async () => {
   api.value = await response.json() as IMatch[];
 })
 
-const round16 = computed(() => api.value.filter((c) => c.stage_name === "Round of 16"));
-const quaterFinals = computed(() => api.value.filter((c) => c.stage_name === "Quarter-final"));
-const semiFinals = computed(() => api.value.filter((c) => c.stage_name === "Semi-final"));
-const final = computed(() => api.value.filter((c) => c.stage_name === "Final").pop());
-const next = computed(() => api.value.filter((c) => new Date(c.datetime) > new Date()).shift());
+const round16 = computed(() => api.value.filter((c) => c.stage_name === "Round of 16")!);
+const quaterFinals = computed(() => api.value.filter((c) => c.stage_name === "Quarter-final")!);
+const semiFinals = computed(() => api.value.filter((c) => c.stage_name === "Semi-final")!);
+const final = computed(() => api.value.filter((c) => c.stage_name === "Final").pop()!);
+const next = computed(() => api.value.filter((c) => new Date(c.datetime) > new Date()).shift()!);
 
 </script>
 
@@ -55,7 +55,7 @@ const next = computed(() => api.value.filter((c) => new Date(c.datetime) > new D
         <Group :group="group" :teams="groups[group]" v-for="group in ['E', 'F', 'G', 'H']"></Group>
       </div>
     </div>
-    <div class="next-panel">
+    <div class="next-panel" v-if="next">
       <h2>Next Game</h2>
       <p class="datetime">{{ new Date(next.datetime.split('T')[0]).toString().substring(0, 10) }}
         {{ next.datetime.split('T')[1].substring(0, 5) }}</p>
